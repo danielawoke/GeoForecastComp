@@ -64,7 +64,7 @@ class Model:
             layer = self.layers[i]
             # creates a bunch of new weights with some number of random changes to them, and then takes the best one (minimum loss)
             # I couldnt think of anything better lol
-            newWeights = self.randWeightsCreator(self.layers[i].weights, 1,1)
+            newWeights = self.randWeightsCreator(self.layers[i].weights, 300,50)
             minLoss = 99999999999
             bestWeight = newWeights[0]
             for weights in newWeights:
@@ -140,14 +140,14 @@ class Layer:
 def makeEmptyModel(layersCount):
     layers = []
     for i in range(0,layersCount):
-        num = random.randint(300, 1000)
+        num = random.randint(300, 500)
         layers.append(Layer(num))
     layers.append(Layer(300))
     return Model(layers)
 
 
 # execution of creating the model
-layersCount = 1
+layersCount = 10
 model = makeEmptyModel(layersCount)
 model.train("train.csv")
 
