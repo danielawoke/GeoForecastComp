@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Running with Docker
 
-## Getting Started
+You can run this project locally using Docker Compose, which sets up all required services:
 
-First, run the development server:
+- **Next.js frontend** (Node.js v22.13.1)
+- **Python FastAPI backend** (Python 3.11)
+- **MongoDB** (latest)
+
+### Build and Start All Services
+
+From the project root, run:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+docker compose up --build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This will build and start the following containers:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **typescript-app** (Next.js frontend) — available at [http://localhost:3000](http://localhost:3000)
+- **python-backend** (FastAPI backend) — available at [http://localhost:8000](http://localhost:8000)
+- **mongo** (MongoDB database) — available at `localhost:27017`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Ports
 
-## Learn More
+- **Frontend (Next.js):** `3000` (exposed to host)
+- **Backend (FastAPI):** `8000` (internal, accessible to frontend)
+- **MongoDB:** `27017` (exposed to host for development)
 
-To learn more about Next.js, take a look at the following resources:
+### Environment Variables
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- No required environment variables are set by default. If you need to provide environment variables, uncomment the `env_file` lines in the `docker-compose.yml` and provide the appropriate `.env` files for each service.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Notes
 
-## Deploy on Vercel
+- The backend and frontend containers run as non-root users for improved security.
+- MongoDB data is not persisted by default. To persist data, uncomment the `volumes` section for `mongo` in `docker-compose.yml`.
+- The backend automatically installs dependencies (FastAPI, Strawberry GraphQL, Pydantic, PyMongo) in a Python virtual environment.
+- The frontend uses production-optimized Node.js builds and only exposes the necessary files.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For development, you can continue to use the local Next.js dev server as described above, or use Docker Compose for a production-like environment.

@@ -1,22 +1,31 @@
 'use client'
 
-import Image from "next/image";
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
+import { text } from 'stream/consumers';
 
 export default function Home() {
-  const textArea = useRef(null);
+  const [textArea, updateTextArea] = useState<any>()
   
   async function f(){
-    let data = textArea.current.value
-    const url = 'http://127.0.0.1:8000/postRequest/';
+    let data = ""
+    if(textArea != null && textArea.current != null ){
+          data = textArea.current.value
+    }
+    // postRequest("woz")
+    console.log("woohoo");
+    
 
-    fetch(url, {
+  }
+
+  async function postRequest(woz:string){
+    const url = 'http://127.0.0.1:8000/postRequest/';
+     fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-                              "name":"stevie Wozinakerson"
+                              "name":woz
                           }),
                         })
       .then((response) => {

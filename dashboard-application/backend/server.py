@@ -62,7 +62,7 @@ class Item(BaseModel):
 
 @app.post("/postRequest/")
 async def create_item(item: Item):
-    uri = "mongodb+srv://dawoke:'Bluebear1?123'@cluster0.oyu906n.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    uri = "mongodb+srv://dawoke:Bluebear1%3F123@cluster0.oyu906n.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
     # Create a new client and connect to the server
     client = MongoClient(uri, server_api=ServerApi('1'))
     # Send a ping to confirm a successful connection
